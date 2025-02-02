@@ -1,4 +1,6 @@
+from api.Scraper import Scraper
 from flask import Flask, render_template, request
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -12,5 +14,7 @@ def addApplication():
 @app.route('/add-new-application', methods=['POST'])
 def addNewApplication():
     link = request.form['link']
+    scraper = Scraper()
+    scraper.archiveJob(link)
     print(link)
     return link
