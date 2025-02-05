@@ -1,0 +1,11 @@
+<h1>Track my applications</h1>
+
+{% for item in data %}
+<ul>
+    <li>Applied on: {{ item[6] }}</li> 
+    <li>{{ item[2] }}</li> 
+    <li>{{ item[1] }}</li>  <!-- Index 1: company -->
+    <li>{{ item[3] }}</li>  
+    <li><a href="{{ item[0] }}">Link to Job</a></li>  
+</ul>
+{% endfor %}
