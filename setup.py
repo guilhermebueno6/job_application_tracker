@@ -41,7 +41,7 @@ con = sqlite3.connect("main_app_db.db")
 print("Database created")
 cur = con.cursor()
 print("Creating table to store job applications...")
-cur.execute("CREATE TABLE job_application(link, company, title, description, skills, stage, date_applied)")
+cur.execute("CREATE TABLE job_application (id INTEGER PRIMARY KEY AUTOINCREMENT, link TEXT, company TEXT, title TEXT, description TEXT, skills TEXT, stage TEXT, date_applied TEXT)")
 print("Table created")
 
 

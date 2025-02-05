@@ -17,9 +17,8 @@ class JobApplication:
         
     
     def saveApplication(self):
-        print({self.link}, {self.company}, {self.title}, {self.description}, {self.skills}, {self.stage}, {self.date_applied})
         self.cur.execute(
-            "INSERT INTO job_application VALUES (?, ?, ?, ?, ?, ?, ?)", 
+            "INSERT INTO job_application (link, company, title, description, skills, stage, date_applied) VALUES (?, ?, ?, ?, ?, ?, ?)",
             (self.link, self.company, self.title, self.description, self.skills, self.stage, self.date_applied)
         )
         self.con.commit()
@@ -28,7 +27,10 @@ class JobApplication:
     def getMyJobApplications(self):
         self.cur.execute("SELECT * FROM job_application")
         res = self.cur.fetchall()
-        print(res)
+
+        for row in res:
+            print(row)
+            print("\n\n\n")
 
         return res
     

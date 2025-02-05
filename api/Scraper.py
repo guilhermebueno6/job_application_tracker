@@ -5,6 +5,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import sqlite3
 from api.JobApplication import JobApplication
+import html2text
 load_dotenv()
 
 class Scraper:
@@ -25,6 +26,7 @@ class Scraper:
 
         if(response.status_code == 200):
             soup = BeautifulSoup(response.text, self.PARSER)
+
             # json = {
             #     "link": link,
             #     "job_description": self.getJobDescription(soup=soup),
@@ -40,7 +42,11 @@ class Scraper:
             
 
     def getJobDescription(self, soup: BeautifulSoup):
-        return soup.find(class_=self.JOB_DESCRIPTION_CLASS).text.strip()
+        h = html2text.HTML2Text()
+        h.ignore_links = True
+        html = soup.find(class_=self.JOB_DESCRIPTION_CLASS)
+        return h.handle(f"""{html}""")
+
     
     def getCompanyName(self, soup: BeautifulSoup):
         return soup.find(class_=self.JOB_COMPANY_CLASS).text.strip()
