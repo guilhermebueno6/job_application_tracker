@@ -15,7 +15,7 @@ Make sure you have the following installed:
 1. **Clone the Repository (if applicable)**
    ```sh
    git clone <repository-url>
-   cd Job-Application-Tracker
+   cd job_application_tracker
    ```
 
 2. **Run the Setup Script**
