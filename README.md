@@ -30,7 +30,7 @@ Make sure you have the following installed:
 
 3. **Run the Application**
    ```sh
-   python app.py
+   flask run
    ```
    The application will start running on `http://127.0.0.1:5000/` by default.
 
