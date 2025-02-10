@@ -1,6 +1,7 @@
 import sqlite3
 import datetime
 import markdown
+import json
 
 class JobApplication:
 
@@ -13,7 +14,7 @@ class JobApplication:
         self.description = None
         self.skills = None
         self.link = None
-        self.stage = 0
+        self.stage = "Applied"
         self.date_applied = datetime.date.today()
         
     
@@ -34,12 +35,14 @@ class JobApplication:
         for row in res:
             data.append(list(row))
             full_text = markdown.markdown(row[4])
+            json_skills = json.loads(row[5])
             
-            preview_text = full_text[:150]
+            preview_text = row[4][:150]
 
             data[i][4] = full_text
+            data[i][5] = json_skills
             data[i].append(preview_text)
             i += 1
-
+        print(data)
         return data
     

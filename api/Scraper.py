@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import os
-from openai import OpenAI
+import openai
 from dotenv import load_dotenv
 import sqlite3
 from api.JobApplication import JobApplication
@@ -38,7 +38,10 @@ class Scraper:
             application.description =  self.getJobDescription(soup)
             application.title =  self.getJobTitle(soup)
             application.company =  self.getCompanyName(soup)
+            application.skills = self.getRelevantSkills(application.description)
             application.saveApplication()
+            
+            print(application.skills)
             
 
     def getJobDescription(self, soup: BeautifulSoup):
@@ -55,6 +58,18 @@ class Scraper:
         return soup.find(class_=self.JOB_TITLE_CLASS).text.strip()
     
     def getRelevantSkills(self, description: str):
-        client = OpenAI()
-        client.api_key = self.CHAT_GPT_KEY
-        return
+        openai.api_key = self.CHAT_GPT_KEY
+
+        completion = openai.chat.completions.create(
+            model=self.CHAT_GPT_MODEL,
+            response_format={"type": "json_object"},
+            messages=[
+                {"role": "system", "content": "You will summarize the following job descriptions listing all the hard skills contained in the text as a json object with name skills"},
+                {"role": "user", "content": description},
+            ],
+        )
+
+
+        return completion.choices[0].message.content
+
+        # return client.res

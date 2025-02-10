@@ -5,33 +5,73 @@
 {% block content %}
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6 p-4">
     {% for item in data %}
+
     <div x-data="{ expanded: false }" class="bg-white shadow-md rounded-lg p-4 border border-gray-200">
-        <!-- Job Title & Toggle Button -->
+
         <div class="flex justify-between items-center">
-            <h2 class="text-lg font-semibold text-gray-800">{{ item[3] }}</h2>
+            
+            <h2 class="text-lg font-semibold text-gray-800">{{ item[3] }} 
+                <!-- Status Marker -->
+                {% set status_classes = {
+                    "Applied": "bg-blue-100 text-blue-800",
+                    "Interview Scheduled": "bg-yellow-100 text-yellow-800",
+                    "Rejected": "bg-red-100 text-red-800",
+                    "Offer Received": "bg-green-100 text-green-800"
+                } %}
+                <span class="px-2 py-1 text-xs font-semibold rounded-lg {{ status_classes.get(item[6], 'bg-gray-100 text-gray-800') }}">
+                    {{ item[6] }}
+                </span></h2>
+
             <button @click="expanded = !expanded" class="text-blue-600 font-medium hover:underline">
                 <span x-show="!expanded">Show More</span>
                 <span x-show="expanded" x-cloak>Show Less</span>
             </button>
         </div>
         
-        <!-- Company Name & Date -->
+
         <p class="text-sm text-gray-500 mt-1">
             Applied on: <span class="font-medium">{{ item[7] }}</span> | <span class="text-gray-700 font-medium">{{ item[2] }}</span>
         </p>
+        
 
-        <!-- Job Description (Expandable Text) -->
+        <div class="flex flex-wrap gap-2 mt-2">
+            {% for skill in item[5].skills %}
+                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-lg">
+                    {{ skill }}
+                </span>
+            {% endfor %}
+        </div>
+
+
         <div class="mt-2 text-gray-700 text-sm">
-            <span x-show="!expanded" x-html="!expanded ? '{{ item[8] }}' : ''"></span>
+            <span x-show="!expanded">
+                {{ item[8] | safe }}...
+            </span>
             <span x-show="expanded" x-cloak class="block">
                 {{ item[4] | safe }}
             </span>
         </div>
 
-        <!-- Action Buttons -->
+
         <div class="flex space-x-4 mt-3">
             <a href="{{ item[1] }}" target="_blank" class="text-blue-500 hover:underline">🔗 Job Link</a>
             <a href="/delete/{{ item[0] }}" class="text-red-500 hover:underline">🗑 Delete</a>
+
+             <!-- Update Status Button -->
+            <button @click="expanded = !expanded" class="text-green-600 hover:underline">
+                ✏️ Update Status
+            </button>
+            
+
+            <form method="POST" action="/update-status/{{ item[0] }}" class="mt-2" x-show="expanded" x-cloak>
+                <select name="status" class="border border-gray-300 rounded p-1">
+                    <option {% if item[6] == "Applied" %}selected{% endif %} value="Applied">Applied</option>
+                    <option {% if item[6] == "Interview Scheduled" %}selected{% endif %} value="Interview Scheduled">Interview Scheduled</option>
+                    <option {% if item[6] == "Rejected" %}selected{% endif %} value="Rejected">Rejected</option>
+                    <option {% if item[6] == "Offer Received" %}selected{% endif %} value="Offer Received">Offer Received</option>
+                </select>
+                <button type="submit" class="ml-2 bg-blue-500 text-white px-2 py-1 rounded">Save</button>
+            </form>                             
         </div>
     </div>
     {% endfor %}

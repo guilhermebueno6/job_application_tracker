@@ -1,9 +1,9 @@
+import sqlite3
 
-import html2text
+con = sqlite3.connect("main_app_db.db", check_same_thread=False)
+cur = con.cursor()
+cur.execute("SELECT * FROM job_application")
+data = []
+res = cur.fetchall()
+print(res)
 
-h = html2text.HTML2Text()
-h.ignore_links = True
-text = h.handle("""<div class="show-more-less-html__markup show-more-less-html__markup--clamp-after-5 relative overflow-hidden">
-<p>VXG Inc. was founded in 2016, with headquarters in Toronto, Canada by experts in Video Management Software (VMS) and Video Artificial Intelligence (AI). Founded with over 20 years of experience in the video surveillance industry and with the idea to make smart video surveillance solutions highly scalable and affordable.</p><p><br/></p><p>VXG is an open Video Surveillance as a Service (VSaaS)/ Cloud VMS company that offers a platform connecting any camera to a variety of cloud services including storage, broadcasting, and AI. VXG connects to leading AI solutions including Amazon Rekognition, Azure Cognitive Services, Google Vision AI, as well as any proprietary vision AI. Delivering unlimited scalability, massive cost reductions, and extensive bandwidth saving.</p><p><br/></p><p>You’ll work closely with CTOs, VP of engineering, and product managers from different companies through this role. You'll be working on many enterprise projects and gain an insider’s knowledge of leading video surveillance companies.</p><p><br/></p><p>Role Description</p><p>This is a full-time on-site role for a Senior Full Stack/Front End Engineer with 5+ years of experience. The Senior Full Stack Engineer will be responsible for daily tasks related to front-end development, back-end web development, and integration with new web services.</p><p><br/></p><p>WHAT YOU WILL BE DOING</p><p>- Develop web front and back-end</p><p>- Integrate with new web services</p><p><br/></p><p>WHAT YOU NEED TO HAVE</p><p>- Bachelor's degree in Computer Science</p><p>- At least 5 years of experience as a Full Stack Engineer</p><p>- Deep knowledge of HTML, JS and CSS</p><p>- Knowledge of PHP</p><p>- Knowledge of SQL</p><p>- Knowledge of HTML5 video and audio technologies</p><p>- Good technical communication skills (in English)</p><p>- Experience with git</p><p>- Understanding of network protocols (HTTP, TLS)</p><p>- UI and UX design skills;</p><p>- Excellent debugging and optimization skills</p><p>- Unit/integration testing experience</p><p>- Ability to work on-site in our office at 3080 Yonge St in Toronto</p>
-</div>""")
-print(text)
