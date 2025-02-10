@@ -24,7 +24,7 @@ Make sure you have the following installed:
    ```
    This script will:
    - Install required dependencies.
-   - Prompt you to enter an authentication token.
+   - Prompt you to enter an OPENAI authentication token for the skill summarizing functionality. (If you do not wish to use this feature you may leave it empty)
    - Create a local SQLite database (`main_app_db.db`).
    - Set up the necessary database table.
 

@@ -17,6 +17,7 @@ class Scraper:
     PARSER = "html.parser"
     CHAT_GPT_KEY = os.getenv('CHAT_GPT_TOKEN')
     CHAT_GPT_MODEL = "gpt-4o-mini"
+    JSON_SCHEMA='{"name": "skills_schema","strict": true,"schema": {"type": "object","properties": {"skills": {"type": "array","description": "A list of skills the job application.","items": {"type": "string"}}},"required": ["skills"],"additionalProperties": false}}'
 
     
 
@@ -38,7 +39,8 @@ class Scraper:
             application.description =  self.getJobDescription(soup)
             application.title =  self.getJobTitle(soup)
             application.company =  self.getCompanyName(soup)
-            application.skills = self.getRelevantSkills(application.description)
+            if(self.CHAT_GPT_KEY):
+                application.skills = self.getRelevantSkills(application.description)
             application.saveApplication()
             
             print(application.skills)
@@ -62,11 +64,33 @@ class Scraper:
 
         completion = openai.chat.completions.create(
             model=self.CHAT_GPT_MODEL,
-            response_format={"type": "json_object"},
             messages=[
                 {"role": "system", "content": "You will summarize the following job descriptions listing all the hard skills contained in the text as a json object with name skills"},
                 {"role": "user", "content": description},
             ],
+            response_format={
+                "type": "json_schema",
+                "json_schema": {
+                    "name": "skills_schema",
+                    "strict": True,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                        "skills": {
+                            "type": "array",
+                            "description": "A list of skills the job application.",
+                            "items": {
+                            "type": "string"
+                            }
+                        }
+                        },
+                        "required": [
+                        "skills"
+                        ],
+                        "additionalProperties": False
+                    }
+                }
+            }
         )
 
 

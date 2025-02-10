@@ -35,7 +35,10 @@ class JobApplication:
         for row in res:
             data.append(list(row))
             full_text = markdown.markdown(row[4])
-            json_skills = json.loads(row[5])
+            if(row[5] is None):
+                json_skills = []
+            else:
+                json_skills = json.loads(row[5])
             
             preview_text = row[4][:150]
 

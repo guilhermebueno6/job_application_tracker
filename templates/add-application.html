@@ -1,12 +1,25 @@
 {% extends "index.html" %}
 
-{% block title %}Add a new Application{% endblock %}
+{% block title %}Add a New Application{% endblock %}
 
 {% block content %}
-<form action="/add-new-application" method="POST">
-    <label for="link">Link</label>
-    <input type="text" name="link" id="link">
+<div class="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6 mt-6 border border-gray-200">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">Add a New Job Application</h2>
+    
+    <form action="/add-new-application" method="POST" class="space-y-4">
+        <!-- Job Link Input -->
+        <div>
+            <label for="link" class="block text-sm font-medium text-gray-700">LinkedIn Job URL</label>
+            <input type="url" name="link" id="link" required
+                class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                placeholder="https://www.linkedin.com/jobs/view/...">
+        </div>
 
-    <button type="submit">Add new application</button>
-</form>
+        <!-- Submit Button -->
+        <button type="submit"
+            class="w-full bg-gray-800 hover:bg-gray-900 text-white font-semibold py-2 rounded-lg transition">
+            Add Application
+        </button>
+    </form>
+</div>
 {% endblock %}

@@ -56,21 +56,16 @@
         <div class="flex space-x-4 mt-3">
             <a href="{{ item[1] }}" target="_blank" class="text-blue-500 hover:underline">🔗 Job Link</a>
             <a href="/delete/{{ item[0] }}" class="text-red-500 hover:underline">🗑 Delete</a>
+          
 
-             <!-- Update Status Button -->
-            <button @click="expanded = !expanded" class="text-green-600 hover:underline">
-                ✏️ Update Status
-            </button>
-            
-
-            <form method="POST" action="/update-status/{{ item[0] }}" class="mt-2" x-show="expanded" x-cloak>
+            <form method="POST" action="/update-status/{{ item[0] }}">
                 <select name="status" class="border border-gray-300 rounded p-1">
                     <option {% if item[6] == "Applied" %}selected{% endif %} value="Applied">Applied</option>
                     <option {% if item[6] == "Interview Scheduled" %}selected{% endif %} value="Interview Scheduled">Interview Scheduled</option>
                     <option {% if item[6] == "Rejected" %}selected{% endif %} value="Rejected">Rejected</option>
                     <option {% if item[6] == "Offer Received" %}selected{% endif %} value="Offer Received">Offer Received</option>
                 </select>
-                <button type="submit" class="ml-2 bg-blue-500 text-white px-2 py-1 rounded">Save</button>
+                <button type="submit" class="ml-2 bg-gray-800 text-white px-2 py-1 rounded">Save</button>
             </form>                             
         </div>
     </div>
