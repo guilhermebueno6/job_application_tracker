@@ -1,12 +1,39 @@
-<h1>Track my applications</h1>
+{% extends "index.html" %}
 
-{% for item in data %}
-    <ul>
-        <li>Applied on: {{ item[7] }}</li> 
-        <li>{{ item[3] }}</li> 
-        <li>{{ item[2] }}</li> 
-        <li><pre>{{ item[4] }}</pre></li>  
-        <li><a href="{{ item[1] }}">Link to Job</a></li>  
-        <li><a href="/delete/{{item[0]}}">Delete Job</a></li>
-    </ul>
-{% endfor %}
+{% block title %}Track my applications{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6 p-4">
+    {% for item in data %}
+    <div x-data="{ expanded: false }" class="bg-white shadow-md rounded-lg p-4 border border-gray-200">
+        <!-- Job Title & Toggle Button -->
+        <div class="flex justify-between items-center">
+            <h2 class="text-lg font-semibold text-gray-800">{{ item[3] }}</h2>
+            <button @click="expanded = !expanded" class="text-blue-600 font-medium hover:underline">
+                <span x-show="!expanded">Show More</span>
+                <span x-show="expanded" x-cloak>Show Less</span>
+            </button>
+        </div>
+        
+        <!-- Company Name & Date -->
+        <p class="text-sm text-gray-500 mt-1">
+            Applied on: <span class="font-medium">{{ item[7] }}</span> | <span class="text-gray-700 font-medium">{{ item[2] }}</span>
+        </p>
+
+        <!-- Job Description (Expandable Text) -->
+        <div class="mt-2 text-gray-700 text-sm">
+            <span x-show="!expanded" x-html="!expanded ? '{{ item[8] }}' : ''"></span>
+            <span x-show="expanded" x-cloak class="block">
+                {{ item[4] | safe }}
+            </span>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex space-x-4 mt-3">
+            <a href="{{ item[1] }}" target="_blank" class="text-blue-500 hover:underline">🔗 Job Link</a>
+            <a href="/delete/{{ item[0] }}" class="text-red-500 hover:underline">🗑 Delete</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

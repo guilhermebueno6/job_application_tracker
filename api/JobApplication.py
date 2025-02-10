@@ -1,5 +1,6 @@
 import sqlite3
 import datetime
+import markdown
 
 class JobApplication:
 
@@ -26,11 +27,19 @@ class JobApplication:
     
     def getMyJobApplications(self):
         self.cur.execute("SELECT * FROM job_application")
+        data = []
         res = self.cur.fetchall()
+        i=0
 
         for row in res:
-            print(row)
-            print("\n\n\n")
+            data.append(list(row))
+            full_text = markdown.markdown(row[4])
+            
+            preview_text = full_text[:150]
 
-        return res
+            data[i][4] = full_text
+            data[i].append(preview_text)
+            i += 1
+
+        return data
     
