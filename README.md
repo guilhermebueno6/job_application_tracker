@@ -19,6 +19,7 @@ Make sure you have the following installed:
    ```
 
 2. **Run the Setup Script**
+
    ```sh
    python setup.py
    ```
@@ -28,11 +29,28 @@ Make sure you have the following installed:
    - Create a local SQLite database (`main_app_db.db`).
    - Set up the necessary database table.
 
-3. **Run the Application**
+3. **(Optional) Add custom URL**
+   If you want to utilize the custom url `jobapplication.local` do the following steps:
+   - On Windows:
+      -  Open Notepad as Administrator
+      -  Edit the file: `C:\Windows\System32\drivers\etc\hosts`
+   - On Mac:
+      -  Open Terminal and run: ```sudo nano /etc/hosts```
+
+   - Add this to the bottom of the file:
+      ```127.0.0.1 jobapplication.local```
+4. **Run the Application**
+
    ```sh
    flask run
    ```
-   The application will start running on `http://127.0.0.1:5000/` by default.
+
+   - If using the custom url, run this instead
+   ```sh
+      sudo python3 app.py
+   ```
+
+   The application will start running on `http://127.0.0.1:5000/` by default. (If using the custom url it will be available on `http://jobapplication.local`)
 
 ## Usage
 - Open `http://127.0.0.1:5000/` in your browser.
@@ -45,6 +63,7 @@ This project relies on the following Python packages:
 - BeautifulSoup4
 - Requests
 - OpenAI (for GPT integration)
+- html2text
 
 All dependencies will be installed automatically when running `setup.py`.
 
@@ -52,15 +71,16 @@ All dependencies will be installed automatically when running `setup.py`.
 The SQLite database (`main_app_db.db`) contains the following table:
 
 ```sql
-CREATE TABLE job_application(
-    link TEXT,
-    company TEXT,
-    title TEXT,
-    description TEXT,
-    skills TEXT,
-    stage TEXT,
-    date_applied TEXT
-);
+    CREATE TABLE job_application (
+      id INTEGER PRIMARY KEY AUTOINCREMENT, 
+      link TEXT, 
+      company TEXT, 
+      title TEXT, 
+      description TEXT, 
+      skills TEXT, 
+      stage TEXT, 
+      date_applied TEXT
+   );
 ```
 
 ## Troubleshooting
@@ -68,6 +88,8 @@ CREATE TABLE job_application(
 - **Dependencies not installing**: Ensure you have the correct Python version (`python --version`).
 - **Database errors**: Delete `main_app_db.db` and re-run `setup.py` to recreate it.
 - **Port conflicts**: If Flask fails to start, check if another process is using port 5000 (`lsof -i :5000` on Linux/Mac or `netstat -ano | findstr :5000` on Windows).
+- **If on Mac**: Comment out ``` pywin32==308 ``` on the requirements.txt file if not commented out
+- **If on Windows**: Uncomment ``` pywin32==308 ``` on the requirements.txt file if commented out
 
 ## Contributing
 If you wish to contribute:

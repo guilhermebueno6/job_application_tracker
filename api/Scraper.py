@@ -43,7 +43,7 @@ class Scraper:
                 application.skills = self.getRelevantSkills(application.description)
             application.saveApplication()
             
-            print(application.skills)
+
             
 
     def getJobDescription(self, soup: BeautifulSoup):

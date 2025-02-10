@@ -17,9 +17,28 @@
 
         <!-- Submit Button -->
         <button type="submit"
+            id="loadButton"
             class="w-full bg-gray-800 hover:bg-gray-900 text-white font-semibold py-2 rounded-lg transition">
             Add Application
         </button>
     </form>
+    <div id="overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
+        <div class="border-4 border-blue-500 border-t-transparent rounded-full w-12 h-12 animate-spin"></div>
+    </div>
+
+    <script>
+        document.getElementById("loadButton").addEventListener("click", function() {
+            var button = this;
+            var overlay = document.getElementById("overlay");
+            
+            button.disabled = true;
+            overlay.classList.remove("hidden");
+            
+            setTimeout(() => {
+                button.disabled = false;
+                overlay.classList.add("hidden");
+            }, 3000);
+        });
+    </script>
 </div>
 {% endblock %}

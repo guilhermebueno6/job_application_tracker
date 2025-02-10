@@ -46,6 +46,6 @@ class JobApplication:
             data[i][5] = json_skills
             data[i].append(preview_text)
             i += 1
-        print(data)
+
         return data
     
